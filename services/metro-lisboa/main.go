@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/joho/godotenv"
 
@@ -20,13 +21,14 @@ func main() {
 		fmt.Println("error loading .env file,", err)
 	}
 
+	// Dependencies
+	client := &http.Client{Timeout: 10 * time.Second}
 	logger := log.New(os.Stdout, "metro-lisboa ", log.LstdFlags | log.Lshortfile)
-
-	s := stations.NewHandlers(logger)
 
 	mux := http.NewServeMux()
 
-	s.SetupRoutes(mux)
+	stations := stations.NewHandlers(client, logger)
+	stations.SetupRoutes(mux)
 
 	srv := server.New(mux, os.Getenv("SERVICE_ADDR"))
 
