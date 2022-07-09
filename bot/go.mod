@@ -1,4 +1,4 @@
-module github.com/DiogoSantoss/kant-bot
+module github.com/DiogoSantoss/kant-bot/bot
 
 go 1.18
 
