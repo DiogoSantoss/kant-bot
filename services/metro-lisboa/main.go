@@ -27,6 +27,7 @@ func main() {
 
 	mux := http.NewServeMux()
 
+	// Routes
 	stations := stations.NewHandlers(client, logger)
 	stations.SetupRoutes(mux)
 

@@ -14,13 +14,13 @@ type Handlers struct {
 }
 
 type Station struct {
-	id string		`json:"stop_id"`
-	name string		`json:"stop_name"`
-	lat float32		`json:"stop_lat"`
-	long float32	`json:"stop_long"`
-	url []string	`json:"stop_url"`
-	linha []string	`json:"linha"`
-	zone_id string	`json:"zone_id"`
+	Id      string   `json:"stop_id"`
+	Name    string   `json:"stop_name"`
+	Lat     float32  `json:"stop_lat"`
+	Lon    float32  `json:"stop_lon"`
+	Url     []string `json:"stop_url"`
+	Linha   []string `json:"linha"`
+	Zone_id string   `json:"zone_id"`
 }
 
 func (h *Handlers) GetStations(w http.ResponseWriter, r *http.Request) {
@@ -32,7 +32,7 @@ func (h *Handlers) GetStations(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		h.logger.Printf("failed to create request: %v", err)
 	}
-	req.Header = http.Header {
+	req.Header = http.Header{
 		"Authorization": {"Bearer " + os.Getenv("METRO_TOKEN")},
 	}
 	res, err := h.client.Do(req)
@@ -48,7 +48,8 @@ func (h *Handlers) GetStations(w http.ResponseWriter, r *http.Request) {
 		h.logger.Printf("failed to read responde body")
 	}
 
-	w.Header().Set("Content-Type", "text/plain; charset=utf-8")
+	// Send response
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(body))
 }
