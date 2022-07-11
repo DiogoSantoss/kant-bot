@@ -3,7 +3,7 @@ package handlers
 import "github.com/bwmarrin/discordgo"
 
 
-func HelpCommand(s *discordgo.Session, m *discordgo.MessageCreate) {
+func CommandHelp(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	title := "Kant Bot - List of commands"
 	description := "Testing embeds"
@@ -13,11 +13,14 @@ func HelpCommand(s *discordgo.Session, m *discordgo.MessageCreate) {
 			Value: "Shows this message",
 		},
 		{
-			Name: "kant ping",
-			Value: "Replies with pong",
+			Name: "kant stations",
+			Value: "Replies with all stations from Lisbon's Metro",
+		},
+		{
+			Name: "kant lines",
+			Value: "Replies with all lines from Lisbon's Metro",
 		},
 	}
-
 
 	s.ChannelMessageSendEmbed(m.ChannelID, &discordgo.MessageEmbed{
 		Title:       title,

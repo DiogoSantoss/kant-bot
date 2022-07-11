@@ -10,7 +10,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/server"
-	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/stations"
+	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/handlers"
 )
 
 func main() {
@@ -28,14 +28,16 @@ func main() {
 	mux := http.NewServeMux()
 
 	// Routes
-	stations := stations.NewHandlers(client, logger)
-	stations.SetupRoutes(mux)
+	handlers := handlers.NewHandlers(client, logger)
+	handlers.SetupRoutes(mux)
 
 	srv := server.New(mux, os.Getenv("SERVICE_ADDR"))
 
+	logger.Println("Server started at " + os.Getenv("SERVICE_ADDR"))
+
 	err = srv.ListenAndServe() // TODO: Create certificate for ListenAndServeTLS
 	if err != nil {
-		log.Fatalf("server failed to start: %v", err)
+		logger.Printf("server failed to start: %v", err)
 	}
 }
 

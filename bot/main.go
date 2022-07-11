@@ -8,6 +8,7 @@ import (
 
 	"github.com/DiogoSantoss/kant-bot/bot/config"
 	"github.com/DiogoSantoss/kant-bot/bot/discord"
+	"github.com/DiogoSantoss/kant-bot/bot/handlers"
 )
 
 func main() {
@@ -15,8 +16,10 @@ func main() {
 	// Setup env variables and dependency injection
 	config.Setup()
 
-	// Create a new Discord session
+	// Create and configure a new Discord session
 	dS := discord.Setup()
+	handlers.Setup(dS)
+	discord.Start(dS)
 
 	// Wait here until CTRL-C or other term signal is received.
 	fmt.Println("Bot is now running.  Press CTRL-C to exit.")
