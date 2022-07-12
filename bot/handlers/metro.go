@@ -46,9 +46,7 @@ func CommandStations(s *discordgo.Session, m *discordgo.MessageCreate) {
 		config.GetLogger().Println(err)
 	}
 
-	message := metro.CreateMessageStations(response.Stations)
-
-	s.ChannelMessageSendEmbed(m.ChannelID, message)
+	metro.SendMessageStations(s, m, response.Stations)
 }
 
 func CommandLines(s *discordgo.Session, m *discordgo.MessageCreate) {

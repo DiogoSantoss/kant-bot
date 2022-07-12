@@ -1,8 +1,12 @@
 package handlers
 
+// TODO
+// This is not very pretty, it should be refactored
+// The ideia is to transform the response from the metro API
+// to another (better) struct
+
 import (
 	"encoding/json"
-	"fmt"
 	"strings"
 )
 
@@ -179,8 +183,6 @@ func ParseLines(body []byte) ([]byte, error) {
 	if err != nil {
 		return toSend, err
 	}
-
-	fmt.Println(parsedResponse)
 
 	return toSend, nil
 }

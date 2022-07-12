@@ -17,7 +17,7 @@ func Setup() *discordgo.Session {
 	}
 
 	// Only care about receiving message events.
-	discordSession.Identify.Intents = discordgo.IntentsGuildMessages
+	discordSession.Identify.Intents = discordgo.IntentsGuildMessages | discordgo.IntentGuildMessageReactions
 
 	return discordSession
 }

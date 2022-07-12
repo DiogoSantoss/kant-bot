@@ -14,3 +14,7 @@ type Arrival struct {
 	Train string `json:"train"`
 	Time  string `json:"time"`
 }
+
+// hour -> hora atual
+// dest -> destino
+// arrivals -> time: seconds

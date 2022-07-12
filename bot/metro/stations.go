@@ -1,6 +1,8 @@
 package metro
 
 import (
+	"strconv"
+
 	"github.com/bwmarrin/discordgo"
 
 	"github.com/DiogoSantoss/kant-bot/bot/discord"
@@ -16,7 +18,7 @@ type Station struct {
 	Zone_id string   `json:"zone_id"`
 }
 
-func CreateMessageStations(stations []Station) *discordgo.MessageEmbed {
+func SendMessageStations(s *discordgo.Session, m *discordgo.MessageCreate, stations []Station) {
 
 	// Embed has a page for each line in metro
 	embedPages := []*discordgo.MessageEmbed{}
@@ -30,11 +32,16 @@ func CreateMessageStations(stations []Station) *discordgo.MessageEmbed {
 		}
 	}
 
+	// Create embed for each line
+	i := 1
 	for line, stations := range stationsByLine {
 		embed := &discordgo.MessageEmbed{
 			Title:  "Linha " + line,
 			Fields: []*discordgo.MessageEmbedField{},
 			Color:  colorForLine(line),
+			Footer: &discordgo.MessageEmbedFooter{
+				Text: strconv.Itoa(i) + "/" + strconv.Itoa(len(stationsByLine)),
+			},
 		}
 		for _, station := range stations {
 
@@ -44,9 +51,11 @@ func CreateMessageStations(stations []Station) *discordgo.MessageEmbed {
 			})
 		}
 		embedPages = append(embedPages, embed)
+		i++
 	}
 
-	return embedPages[0]
+	message, _ := s.ChannelMessageSendEmbed(m.ChannelID, embedPages[0])
+	discord.CreatePageEmbed(s, embedPages, message)
 }
 
 func colorForLine(line string) int {
