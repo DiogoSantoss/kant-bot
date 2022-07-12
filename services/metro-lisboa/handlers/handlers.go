@@ -62,6 +62,15 @@ func (h *Handlers) GetStations(w http.ResponseWriter, r *http.Request) {
 		h.logger.Printf("failed to read responde body")
 	}
 
+	// Correct some fields from the response
+	body, err = ParseStations(body)
+	if err != nil {
+		h.logger.Printf("failed to parse response body")
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write(body)
+		return
+	}
+
 	// Send response
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
@@ -91,6 +100,15 @@ func (h *Handlers) GetLines(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		h.logger.Printf("failed to read responde body")
+	}
+
+	// Correct some fields from the response
+	body, err = ParseLines(body)
+	if err != nil {
+		h.logger.Printf("failed to parse response body")
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write(body)
+		return
 	}
 
 	// Send response
@@ -128,6 +146,15 @@ func (h *Handlers) GetWaitingTime(w http.ResponseWriter, r *http.Request) {
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		h.logger.Printf("failed to read responde body")
+	}
+
+	// Correct some fields from the response
+	body, err = ParseTimes(body)
+	if err != nil {
+		h.logger.Printf("failed to parse response body")
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write(body)
+		return
 	}
 
 	// Send response

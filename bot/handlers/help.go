@@ -1,6 +1,9 @@
 package handlers
 
-import "github.com/bwmarrin/discordgo"
+import (
+	"github.com/DiogoSantoss/kant-bot/bot/discord"
+	"github.com/bwmarrin/discordgo"
+)
 
 
 func CommandHelp(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -26,6 +29,6 @@ func CommandHelp(s *discordgo.Session, m *discordgo.MessageCreate) {
 		Title:       title,
 		Description: description,
 		Fields:      fields,
-		Color:       3447003,
+		Color:       discord.Blue,
 	})
 }
