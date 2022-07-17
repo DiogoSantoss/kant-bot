@@ -20,7 +20,7 @@ type Config struct {
 // Global variable
 var config *Config
 
-func Setup(){
+func Setup() {
 
 	// Load .env file
 	err := godotenv.Load(".env")
@@ -28,7 +28,7 @@ func Setup(){
 		fmt.Println("error loading .env file,", err)
 	}
 
-	logger := log.New(os.Stdout, "bot ", log.LstdFlags | log.Lshortfile)
+	logger := log.New(os.Stdout, "bot ", log.LstdFlags|log.Lshortfile)
 
 	client := &http.Client{Timeout: 10 * time.Second}
 

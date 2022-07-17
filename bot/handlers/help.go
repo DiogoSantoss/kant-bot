@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"github.com/DiogoSantoss/kant-bot/bot/discord"
 	"github.com/bwmarrin/discordgo"
+	
+	"github.com/DiogoSantoss/kant-bot/bot/discord"
 )
-
 
 func CommandHelp(s *discordgo.Session, m *discordgo.MessageCreate) {
 
@@ -12,15 +12,15 @@ func CommandHelp(s *discordgo.Session, m *discordgo.MessageCreate) {
 	description := "Testing embeds"
 	fields := []*discordgo.MessageEmbedField{
 		{
-			Name: "kant help",
+			Name:  "kant help",
 			Value: "Shows this message",
 		},
 		{
-			Name: "kant stations",
+			Name:  "kant stations",
 			Value: "Replies with all stations from Lisbon's Metro",
 		},
 		{
-			Name: "kant lines",
+			Name:  "kant lines",
 			Value: "Replies with all lines from Lisbon's Metro",
 		},
 	}

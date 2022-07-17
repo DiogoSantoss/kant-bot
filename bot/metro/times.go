@@ -2,7 +2,7 @@ package metro
 
 import (
 	"strconv"
-	
+
 	"github.com/bwmarrin/discordgo"
 
 	"github.com/DiogoSantoss/kant-bot/bot/discord"
@@ -24,31 +24,7 @@ type Arrival struct {
 	Remaining string `json:"remaining"`
 }
 
-// hour -> hora atual
-// dest -> destino
-// arrivals -> time: seconds
-
 func SendMessageTimes(s *discordgo.Session, m *discordgo.MessageCreate, times []Time) {
-
-	// Flow
-	// User send "kant times CG"  (http://localhost:8080/waitingtime?station=AM)
-	// If station is not found, send "Station not found"
-	// Else
-	// Create paginated embed, one page for each destination
-	// Send embed with this format:
-	// Estacao CG
-	// Próximas chegadas:
-	// hora absoluta (tempo restante)
-	// 1- hh:mm:ss (mm:ss)
-	// 2- hh:mm:ss (mm:ss)
-	// 3- hh:mm:ss (mm:ss)
-	// Se nao houver chegadas, send "Não há chegadas"
-
-	// Calculos
-	// Hour -> hora atual
-	// Arrival.Time -> tempo restante
-	// Hour + Arrival.Time -> hora absoluta de chegada
-	// Queremos enviar Hour + Arrival.Time (Arrival.Time) mas bem formatado
 
 	if len(times) == 0 {
 		s.ChannelMessageSend(m.ChannelID, "Estação não encontrada")

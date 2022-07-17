@@ -13,7 +13,7 @@ type PagedEmbed struct {
 	Session *discordgo.Session
 }
 
-// Global Variable
+// Global Variable to store all paginated embeds
 var PagedEmbeds map[string]*PagedEmbed = make(map[string]*PagedEmbed)
 
 func CreatePageEmbed(s *discordgo.Session, pages []*discordgo.MessageEmbed, m *discordgo.Message) {

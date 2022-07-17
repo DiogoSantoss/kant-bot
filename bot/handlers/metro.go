@@ -16,11 +16,11 @@ type ResponseStations struct {
 }
 
 type ResponseLines struct {
-	Lines []metro.Line  `json:"lines"`
+	Lines []metro.Line `json:"lines"`
 }
 
 type ResponseWaitingTimes struct {
-	Times []metro.Time `json:"times"`	
+	Times []metro.Time `json:"times"`
 }
 
 func CommandStations(s *discordgo.Session, m *discordgo.MessageCreate) {

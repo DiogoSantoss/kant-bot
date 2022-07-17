@@ -8,7 +8,6 @@ type Line struct {
 	Msg    string `json:"msg"`
 }
 
-
 func SendMessageLines(s *discordgo.Session, m *discordgo.MessageCreate, lines []Line) {
 
 	// Embed for each line

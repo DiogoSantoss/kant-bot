@@ -24,7 +24,7 @@ func main() {
 
 	// Dependencies
 	client := &http.Client{Timeout: 10 * time.Second}
-	logger := log.New(os.Stdout, "metro-lisboa ", log.LstdFlags | log.Lshortfile)
+	logger := log.New(os.Stdout, "metro-lisboa ", log.LstdFlags|log.Lshortfile)
 
 	// Load destinations
 	err = metro.LoadDestinations(client)
@@ -48,4 +48,3 @@ func main() {
 		logger.Printf("server failed to start: %v", err)
 	}
 }
-
