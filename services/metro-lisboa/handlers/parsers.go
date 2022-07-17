@@ -7,7 +7,11 @@ package handlers
 
 import (
 	"encoding/json"
+	"strconv"
 	"strings"
+	"time"
+
+	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/metro"
 )
 
 type ResponseStations struct {
@@ -92,7 +96,7 @@ type ParsedResponseTimes struct {
 type ParsedTime struct {
 	Id       string    `json:"id"`
 	Pier     string    `json:"pier"`
-	Hour     string    `json:"hour"`
+	Time     string    `json:"time"`
 	Arrivals []Arrival `json:"arrivals"`
 	Dest     string    `json:"dest"`
 	Exit     string    `json:"exit"`
@@ -100,8 +104,9 @@ type ParsedTime struct {
 }
 
 type Arrival struct {
-	Train string `json:"train"`
-	Time  string `json:"time"`
+	Train     string `json:"train"`
+	Time      string `json:"time"`
+	Remaining string `json:"remaining"`
 }
 
 func ParseStations(body []byte) ([]byte, error) {
@@ -151,25 +156,25 @@ func ParseLines(body []byte) ([]byte, error) {
 	var parsedResponse ParsedResponseLines
 
 	yellow := &ParsedLine{
-		Name:   "Yellow",
+		Name:   "Amarela",
 		Status: strings.Replace(response.Response.YellowStatus, " ", "", -1),
 		Msg:    response.Response.YellowMsg,
 	}
 
 	red := &ParsedLine{
-		Name:   "Red",
+		Name:   "Vermelha",
 		Status: strings.Replace(response.Response.RedStatus, " ", "", -1),
 		Msg:    response.Response.RedMsg,
 	}
 
 	blue := &ParsedLine{
-		Name:   "Blue",
+		Name:   "Azul",
 		Status: strings.Replace(response.Response.BlueStatus, " ", "", -1),
 		Msg:    response.Response.BlueMsg,
 	}
 
 	green := &ParsedLine{
-		Name:   "Green",
+		Name:   "Verde",
 		Status: strings.Replace(response.Response.GreenStatus, " ", "", -1),
 		Msg:    response.Response.GreenMsg,
 	}
@@ -196,27 +201,52 @@ func ParseTimes(body []byte) ([]byte, error) {
 
 	for _, waitingTime := range response.Response {
 
+		// Hour of the request
+		requestTime, _ := time.Parse("20060102150405", waitingTime.Hour)
+
+		// Seconds for next train
+		seconds1, _ := strconv.Atoi(waitingTime.Time1)
+		// Date for next train
+		arrivalTime1 := requestTime.Add(time.Duration(seconds1) * time.Second)
+		// Hours (hh:mm:ss) for next train
+		time1 := strings.Split(arrivalTime1.String(), " ")[1]
+		// Remaining (MMmSSs) time for next train
+		remainingTime1 := arrivalTime1.Sub(requestTime)
+
+		seconds2, _ := strconv.Atoi(waitingTime.Time2)
+		arrivalTime2 := requestTime.Add(time.Duration(seconds2) * time.Second)
+		time2 := strings.Split(arrivalTime2.String(), " ")[1]
+		remainingTime2 := arrivalTime2.Sub(requestTime)
+
+		seconds3, _ := strconv.Atoi(waitingTime.Time3)
+		arrivalTime3 := requestTime.Add(time.Duration(seconds3) * time.Second)
+		time3 := strings.Split(arrivalTime3.String(), " ")[1]
+		remainingTime3 := arrivalTime3.Sub(requestTime)
+
 		arrivals := []Arrival{
 			{
-				Train: waitingTime.Train1,
-				Time:  waitingTime.Time1,
+				Train:     waitingTime.Train1,
+				Time:      time1,
+				Remaining: remainingTime1.String(),
 			},
 			{
-				Train: waitingTime.Train2,
-				Time:  waitingTime.Time2,
+				Train:     waitingTime.Train2,
+				Time:      time2,
+				Remaining: remainingTime2.String(),
 			},
 			{
-				Train: waitingTime.Train3,
-				Time:  waitingTime.Time3,
+				Train:     waitingTime.Train3,
+				Time:      time3,
+				Remaining: remainingTime3.String(),
 			},
 		}
 
 		parsedTime := &ParsedTime{
 			Id:       waitingTime.Id,
 			Pier:     waitingTime.Pier,
-			Hour:     waitingTime.Hour,
+			Time:     waitingTime.Hour,
 			Arrivals: arrivals,
-			Dest:     waitingTime.Dest,
+			Dest:     metro.GetDestination(waitingTime.Dest),
 			Exit:     waitingTime.Exit,
 			UT:       waitingTime.UT,
 		}

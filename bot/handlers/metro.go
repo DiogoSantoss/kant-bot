@@ -72,12 +72,7 @@ func CommandLines(s *discordgo.Session, m *discordgo.MessageCreate) {
 		config.GetLogger().Println(err)
 	}
 
-	message := ""
-	for _, line := range response.Lines {
-		message += line.Name + ": " + line.Status + "\n"
-	}
-
-	s.ChannelMessageSend(m.ChannelID, message)
+	metro.SendMessageLines(s, m, response.Lines)
 }
 
 func CommandWaitingTimes(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -112,10 +107,5 @@ func CommandWaitingTimes(s *discordgo.Session, m *discordgo.MessageCreate) {
 		config.GetLogger().Println(err)
 	}
 
-	message := ""
-	for _, time := range response.Times {
-		message += time.Pier + ": " + time.Hour + "\n"
-	}
-
-	s.ChannelMessageSend(m.ChannelID, message)
+	metro.SendMessageTimes(s, m, response.Times)
 }

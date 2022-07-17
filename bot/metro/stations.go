@@ -57,18 +57,3 @@ func SendMessageStations(s *discordgo.Session, m *discordgo.MessageCreate, stati
 	message, _ := s.ChannelMessageSendEmbed(m.ChannelID, embedPages[0])
 	discord.CreatePageEmbed(s, embedPages, message)
 }
-
-func colorForLine(line string) int {
-	switch line {
-	case "Amarela":
-		return discord.Yellow
-	case "Azul":
-		return discord.Blue
-	case "Verde":
-		return discord.Green
-	case "Vermelha":
-		return discord.Red
-	default:
-		return discord.White
-	}
-}

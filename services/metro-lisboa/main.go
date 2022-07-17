@@ -9,8 +9,9 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/server"
 	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/handlers"
+	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/metro"
+	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/server"
 )
 
 func main() {
@@ -24,6 +25,13 @@ func main() {
 	// Dependencies
 	client := &http.Client{Timeout: 10 * time.Second}
 	logger := log.New(os.Stdout, "metro-lisboa ", log.LstdFlags | log.Lshortfile)
+
+	// Load destinations
+	err = metro.LoadDestinations(client)
+	if err != nil {
+		logger.Printf("error loading destinations: %v", err)
+		return
+	}
 
 	mux := http.NewServeMux()
 
