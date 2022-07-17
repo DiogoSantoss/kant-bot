@@ -21,8 +21,50 @@ It's still in the early stages of development so I'm not too sure what I'll do w
 ## Architecture
 
 I wanted to take this opportunity to learn more about microservices and therefore this architecture is centered around that.  
-The bot is used as a frontend for the users in Discord while the business logic is implemented in a backend with multiple microservices.
-The communication between the frontend and the backend is done throught gRPC.
+The bot is used as a frontend for the users in Discord while the business logic is implemented in the backend with multiple microservices.
+
+If you any anti-patterns or bad practices, please send me a message or a PR.
+
+## Services File Structure
+
+### Kant
+```
+.
+├── main.go
+├── go.mod
+├── go.sum
+├── config
+│   └── config.go
+├── discord
+│   ├── colors.go
+│   ├── emojis.go
+│   ├── pagedEmbed.go
+│   └── setup.go
+├── handlers
+│   ├── help.go
+│   ├── metro.go
+│   └── setup.go
+└── metro
+    ├── lines.go
+    ├── stations.go
+    ├── times.go
+    └── utils.go
+```
+
+### Metro Lisboa
+```
+.
+├── main.go
+├── go.mod
+├── go.sum
+├── handlers
+│   ├── handlers.go
+│   └── parsers.go
+├── metro
+│   └── destinations.go
+└── server
+    └── server.go
+```
 
 ## Invite link
 Use this [link](https://discord.com/oauth2/authorize?client_id=994381773909803050&permissions=8&scope=bot) to invite Kant to your server.
@@ -34,4 +76,4 @@ Coming soon ...
 - [discordgo](https://github.com/bwmarrin/discordgo) - bindings for discord api
 - [godotenv](github.com/joho/godotenv) - load env variables from a file
 ## Questions/Suggestions/Bug Reports
-Feel free to message me on discord or open an issue on github.
+Feel free to message me on discord or open an issue/PR on github.
