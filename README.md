@@ -75,5 +75,6 @@ Coming soon ...
 ## Build with
 - [discordgo](https://github.com/bwmarrin/discordgo) - bindings for discord api
 - [godotenv](github.com/joho/godotenv) - load env variables from a file
+
 ## Questions/Suggestions/Bug Reports
 Feel free to message me on discord or open an issue/PR on github.

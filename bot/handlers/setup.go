@@ -82,8 +82,6 @@ func reactionHandler(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 	discord.DeleteTimeout()
 
 	// Used to move pages in embeds
-	// TODO refactor
-	// This uses a global hash of embeds which is not ideal
 	pagedEmbed, found := discord.PagedEmbeds[r.MessageID]
 	if !found {
 		return

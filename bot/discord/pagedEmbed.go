@@ -13,6 +13,9 @@ type PagedEmbed struct {
 	Session *discordgo.Session
 }
 
+// TODO refactor
+// This uses a global hash of embeds which is not ideal
+
 // Global Variable to store all paginated embeds
 var PagedEmbeds map[string]*PagedEmbed = make(map[string]*PagedEmbed)
 
