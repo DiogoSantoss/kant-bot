@@ -1,17 +1,17 @@
 package main
 
 import (
+	"os"
 	"fmt"
 	"log"
-	"net/http"
-	"os"
 	"time"
+	"net/http"
 
 	"github.com/joho/godotenv"
 
-	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/handlers"
 	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/metro"
 	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/server"
+	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/handlers"
 )
 
 func main() {

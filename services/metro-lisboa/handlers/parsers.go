@@ -4,12 +4,15 @@ package handlers
 // This is not very pretty, it should be refactored
 // The ideia is to transform the response from the metro API
 // to another (better) struct
+// Also better handling when api doesnt respond with 200
+// Example: tempoEspera/Estacao/aaa VS tempoEspera/Estacao/ax (after 1am)
+// first returns 500 and second 200 but are handle in the same way, both responses are []
 
 import (
-	"encoding/json"
+	"time"
 	"strconv"
 	"strings"
-	"time"
+	"encoding/json"
 
 	"github.com/DiogoSantoss/kant-bot/services/metro-lisboa/metro"
 )

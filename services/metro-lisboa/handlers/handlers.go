@@ -32,8 +32,8 @@ func (h *Handlers) Logger(next http.HandlerFunc) http.HandlerFunc {
 
 // Routes
 func (h *Handlers) SetupRoutes(mux *http.ServeMux) {
-	mux.HandleFunc("/stations", h.Logger(h.GetStations))
 	mux.HandleFunc("/lines", h.Logger(h.GetLines))
+	mux.HandleFunc("/stations", h.Logger(h.GetStations))
 	mux.HandleFunc("/waitingtime", h.Logger(h.GetWaitingTime))
 }
 
@@ -42,16 +42,9 @@ func (h *Handlers) GetStations(w http.ResponseWriter, r *http.Request) {
 
 	endpoint := "https://api.metrolisboa.pt:8243/estadoServicoML/1.0.1/infoEstacao/todos"
 
-	req, err := http.NewRequest("GET", endpoint, nil)
+	res, err := h.sendRequest(endpoint)
 	if err != nil {
-		h.logger.Printf("failed to create request: %v", err)
-	}
-	req.Header = http.Header{
-		"Authorization": {"Bearer " + os.Getenv("METRO_TOKEN")},
-	}
-	res, err := h.client.Do(req)
-	if err != nil {
-		h.logger.Printf("failed request: %v", err)
+		return 
 	}
 
 	// Close the connection to reuse it
@@ -82,16 +75,9 @@ func (h *Handlers) GetLines(w http.ResponseWriter, r *http.Request) {
 
 	endpoint := "https://api.metrolisboa.pt:8243/estadoServicoML/1.0.1/estadoLinha/todos"
 
-	req, err := http.NewRequest("GET", endpoint, nil)
+	res, err := h.sendRequest(endpoint)
 	if err != nil {
-		h.logger.Printf("failed to create request: %v", err)
-	}
-	req.Header = http.Header{
-		"Authorization": {"Bearer " + os.Getenv("METRO_TOKEN")},
-	}
-	res, err := h.client.Do(req)
-	if err != nil {
-		h.logger.Printf("failed request: %v", err)
+		return 
 	}
 
 	// Close the connection to reuse it
@@ -128,16 +114,9 @@ func (h *Handlers) GetWaitingTime(w http.ResponseWriter, r *http.Request) {
 
 	endpoint := "https://api.metrolisboa.pt:8243/estadoServicoML/1.0.1/tempoEspera/Estacao/" + station
 
-	req, err := http.NewRequest("GET", endpoint, nil)
+	res, err := h.sendRequest(endpoint)
 	if err != nil {
-		h.logger.Printf("failed to create request: %v", err)
-	}
-	req.Header = http.Header{
-		"Authorization": {"Bearer " + os.Getenv("METRO_TOKEN")},
-	}
-	res, err := h.client.Do(req)
-	if err != nil {
-		h.logger.Printf("failed request: %v", err)
+		return 
 	}
 
 	// Close the connection to reuse it
@@ -161,4 +140,24 @@ func (h *Handlers) GetWaitingTime(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(body)
+}
+
+// Generic request sender
+func (h *Handlers) sendRequest(endpoint string) (*http.Response, error) {
+
+	req, err := http.NewRequest("GET", endpoint, nil)
+	if err != nil {
+		h.logger.Printf("failed to create request: %v", err)
+		return nil, err
+	}
+	req.Header = http.Header{
+		"Authorization": {"Bearer " + os.Getenv("METRO_TOKEN")},
+	}
+	res, err := h.client.Do(req)
+	if err != nil {
+		h.logger.Printf("failed request: %v", err)
+		return nil, err
+	}
+
+	return res, nil
 }

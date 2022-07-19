@@ -8,6 +8,7 @@ import (
 	"github.com/DiogoSantoss/kant-bot/bot/config"
 )
 
+// Create discord session with intents
 func Setup() *discordgo.Session {
 
 	// Create a new Discord session using the provided bot token.
@@ -22,6 +23,7 @@ func Setup() *discordgo.Session {
 	return discordSession
 }
 
+// Start discord session
 func Start(discordSession *discordgo.Session) {
 
 	err := discordSession.Open()
@@ -31,6 +33,7 @@ func Start(discordSession *discordgo.Session) {
 	}
 }
 
+// Close discord session
 func Stop(discordSession *discordgo.Session) {
 
 	// Cleanly close down the Discord session.

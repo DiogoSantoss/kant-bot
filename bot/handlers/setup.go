@@ -9,13 +9,14 @@ import (
 	"github.com/DiogoSantoss/kant-bot/bot/discord"
 )
 
+// Add handlers to discord session
 func Setup(discordSession *discordgo.Session) {
 
-	// Add a handler for the messageCreate events.
 	discordSession.AddHandler(commandHandler)
 	discordSession.AddHandler(reactionHandler)
 }
 
+// Message handler
 func commandHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	// Ignore all messages created by the bot itself
@@ -51,6 +52,8 @@ func commandHandler(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 }
 
+
+// Reaction handler
 func reactionHandler(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
 	// Ignore all messages created by the bot itself
@@ -65,11 +68,6 @@ func reactionHandler(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 		return
 	}
 
-	// Ignore messages that are not embeds with a command in the footer
-	if len(m.Embeds) != 1 {
-		return
-	}
-
 	user, err := s.User(r.UserID)
 	// Ignore when sender is invalid or is a bot
 	if err != nil || user == nil || user.Bot {
@@ -78,14 +76,13 @@ func reactionHandler(s *discordgo.Session, r *discordgo.MessageReactionAdd) {
 
 	// handle reactions for paged embeds
 
-	// Stop responding to reactions after 15 minutes
+	// Refresh embeds
 	discord.DeleteTimeout()
 
-	// Used to move pages in embeds
+	// Find embed and switch page accordingly
 	pagedEmbed, found := discord.PagedEmbeds[r.MessageID]
 	if !found {
 		return
 	}
-
 	pagedEmbed.SwitchPage(r)
 }

@@ -9,19 +9,24 @@ import (
 func CommandHelp(s *discordgo.Session, m *discordgo.MessageCreate) {
 
 	title := "Kant Bot - List of commands"
-	description := "Testing embeds"
+	description := "List of commands available in the bot"
 	fields := []*discordgo.MessageEmbedField{
 		{
 			Name:  "kant help",
 			Value: "Shows this message",
 		},
+		// Metro Service
 		{
 			Name:  "kant stations",
-			Value: "Replies with all stations from Lisbon's Metro",
+			Value: "Replies with all stations from Lisbon's Metro organized by station color",
 		},
 		{
 			Name:  "kant lines",
-			Value: "Replies with all lines from Lisbon's Metro",
+			Value: "Replies with all lines from Lisbon's Metro and their current status",
+		},
+		{
+			Name:  "kant time <line_id>",
+			Value: "Replies with the current waiting time for the given line",
 		},
 	}
 
