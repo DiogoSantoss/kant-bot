@@ -1,0 +1,8 @@
+// See https://go.googlesource.com/tools/+/refs/heads/master/gopls/doc/workspace.md#multiple-modules
+
+go 1.18
+
+use (
+	./bot
+	./services/metro-lisboa
+)
