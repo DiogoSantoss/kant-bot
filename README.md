@@ -72,6 +72,19 @@ Use this [link](https://discord.com/oauth2/authorize?client_id=99438177390980305
 ## Installation
 Coming soon ...
 
+## Running with Docker
+Run the docker-compose file in the root directory.
+```
+docker-compose up -d
+```
+This will start the bot and the services.
+
+## Running with Go
+Run the main.go file of each folder (bot + services).
+```
+go run main.go
+```
+
 ## Build with
 - [discordgo](https://github.com/bwmarrin/discordgo) - bindings for discord api
 - [godotenv](github.com/joho/godotenv) - load env variables from a file

@@ -23,10 +23,13 @@ type ResponseWaitingTimes struct {
 	Times []metro.Time `json:"times"`
 }
 
+// Address of the metro service
+const address = "http://metro:8080"
+
 // Handler for the stations command
 func CommandStations(s *discordgo.Session, m *discordgo.MessageCreate) {
 
-	endpoint := "http://localhost:8080/stations"
+	endpoint := address + "/stations"
 
 	res, err := sendRequest(endpoint)
 	if err != nil {
@@ -51,7 +54,7 @@ func CommandStations(s *discordgo.Session, m *discordgo.MessageCreate) {
 // Handler for the lines command
 func CommandLines(s *discordgo.Session, m *discordgo.MessageCreate) {
 
-	endpoint := "http://localhost:8080/lines"
+	endpoint := address + "/lines"
 
 	res, err := sendRequest(endpoint)
 	if err != nil {
@@ -84,7 +87,7 @@ func CommandWaitingTimes(s *discordgo.Session, m *discordgo.MessageCreate) {
 	}
 
 	// TODO: verify args
-	endpoint := "http://localhost:8080/waitingtime?station=" + args[2]
+	endpoint := address + "/waitingtime?station=" + args[2]
 
 	res, err := sendRequest(endpoint)
 	if err != nil {

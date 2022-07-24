@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+
+  bot:
+    image: kant-bot
+    build: ./bot/
+
+  metro:
+    image: metro-lisboa
+    build: ./services/metro-lisboa
+    ports:
+      - "8080:8080"

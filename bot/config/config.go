@@ -20,24 +20,23 @@ type Config struct {
 // Global variable
 var config *Config
 
-func Setup() {
+func Setup() error {
 
 	// Load .env file
 	err := godotenv.Load(".env")
 	if err != nil {
 		fmt.Println("error loading .env file,", err)
+		return err
 	}
-
-	logger := log.New(os.Stdout, "bot ", log.LstdFlags|log.Lshortfile)
-
-	client := &http.Client{Timeout: 10 * time.Second}
 
 	config = &Config{
 		Token:  os.Getenv("DISCORD_TOKEN"),
 		Prefix: os.Getenv("BOT_PREFIX"),
-		Client: client,
-		Logger: logger,
+		Client: &http.Client{Timeout: 10 * time.Second},
+		Logger: log.New(os.Stdout, "bot ", log.LstdFlags|log.Lshortfile),
 	}
+
+	return nil
 }
 
 func GetToken() string {
