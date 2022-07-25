@@ -14,12 +14,25 @@ import (
 func main() {
 
 	// Setup env variables and dependency injection
-	config.Setup()
+	err := config.Setup()
+	if err != nil {
+		fmt.Println("Failed to start bot.")
+		return
+	}
 
 	// Create and configure a new Discord session
-	dS := discord.Setup()
+	dS, err := discord.Setup()
+	if err != nil {
+		fmt.Println("Failed to start bot.")
+		return
+	}
+	
 	handlers.Setup(dS)
-	discord.Start(dS)
+	err = discord.Start(dS)
+	if err != nil {
+		fmt.Println("Failed to start bot.")
+		return
+	}
 
 	// Wait here until CTRL-C or other term signal is received.
 	fmt.Println("Bot is now running.  Press CTRL-C to exit.")

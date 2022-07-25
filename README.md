@@ -23,7 +23,7 @@ It's still in the early stages of development so I'm not too sure what I'll do w
 I wanted to take this opportunity to learn more about microservices and therefore this architecture is centered around that.  
 The bot is used as a frontend for the users in Discord while the business logic is implemented in the backend with multiple microservices.
 
-If you any anti-patterns or bad practices, please send me a message or a PR.
+If you notice any anti-patterns or bad practices, please send me a message or a PR.
 
 ## Services File Structure
 
@@ -71,6 +71,19 @@ Use this [link](https://discord.com/oauth2/authorize?client_id=99438177390980305
 
 ## Installation
 Coming soon ...
+
+## Running with Docker
+Run the docker-compose file in the root directory.
+```
+docker-compose up -d
+```
+This will start the bot and the services.
+
+## Running with Go
+Run the main.go file of each folder (bot + services).
+```
+go run main.go
+```
 
 ## Build with
 - [discordgo](https://github.com/bwmarrin/discordgo) - bindings for discord api
