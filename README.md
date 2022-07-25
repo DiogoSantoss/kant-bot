@@ -23,7 +23,7 @@ It's still in the early stages of development so I'm not too sure what I'll do w
 I wanted to take this opportunity to learn more about microservices and therefore this architecture is centered around that.  
 The bot is used as a frontend for the users in Discord while the business logic is implemented in the backend with multiple microservices.
 
-If you any anti-patterns or bad practices, please send me a message or a PR.
+If you notice any anti-patterns or bad practices, please send me a message or a PR.
 
 ## Services File Structure
 
