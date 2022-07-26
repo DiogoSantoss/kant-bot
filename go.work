@@ -5,4 +5,5 @@ go 1.18
 use (
 	./bot
 	./services/metro-lisboa
+	./services/fenix-ist
 )
