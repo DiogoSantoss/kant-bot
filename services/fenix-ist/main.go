@@ -1,37 +1,62 @@
 package main
 
 import (
-	"io"
+	"io/ioutil"
 	"net/http"
-	"time"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
-
-/*
-File structure
-https://www.codementor.io/@packt/how-to-set-up-a-project-in-echo-mpo39w5zu
-*/
 
 func main() {
 
 	e := echo.New()
 
-	e.GET("/teste", func(c echo.Context) error {
+	e.Use(middleware.Logger())
 
-		endpoint := "https://fenix.tecnico.ulisboa.pt/api/fenix/v1/courses/1610612925989?lang=en-US"
-		client := &http.Client{Timeout: 10 * time.Second}
+	e.GET("/courses", getCourses)
+	e.GET("/course/:id", getCourse)
 
-		req, _ := http.NewRequest("GET", endpoint, nil)
-		res, _ := client.Do(req)
+	e.Logger.Fatal(e.Start(":8081"))
+}
 
-		// Close the connection to reuse it
-		defer res.Body.Close()
+func getCourses(c echo.Context) error {
 
-		body, _ := io.ReadAll(res.Body)
+	// With MEIC-A id
+	endpoint := "https://fenix.tecnico.ulisboa.pt/api/fenix/v1/degrees/2761663971475/courses"
+	
+	resp, err := http.Get(endpoint)
+	if err != nil {
+		c.Echo().Logger.Error(err)
+		return err
+	}
 
-		return c.String(http.StatusOK, string(body))
-	})
+	encodedJSON, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		c.Echo().Logger.Error(err)
+		return err
+	}
 
-	e.Logger.Fatal(e.Start(":1323"))
+	return c.JSONBlob(http.StatusOK, encodedJSON)
+}
+
+func getCourse(c echo.Context) error {
+
+	id := c.Param("id")
+	endpoint := "https://fenix.tecnico.ulisboa.pt/api/fenix/v1/courses/"
+	endpoint += id
+
+	resp, err := http.Get(endpoint)
+	if err != nil {
+		c.Echo().Logger.Error(err)
+		return err
+	}
+
+	encodedJSON, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		c.Echo().Logger.Error(err)
+		return err
+	}
+
+	return c.JSONBlob(http.StatusOK, encodedJSON)
 }
